@@ -98,7 +98,7 @@ class Focuslight::Web < Sinatra::Base
     end
 
     def rrd
-      @rrd ||= Focuslight::RRD.new
+      @rrd ||= Focuslight::RRD.new(data())
     end
 
     # short interval update is always enabled in focuslight

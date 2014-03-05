@@ -11,8 +11,10 @@ require "rrd"
 
 class Focuslight::RRD
   include Focuslight::Logger
+  attr_reader :data
 
-  def initialize(args={})
+  def initialize(data, args={})
+    @data = data
     @datadir = Focuslight::Config.get(:datadir)
     # rrdcached
   end

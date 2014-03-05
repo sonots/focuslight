@@ -29,7 +29,7 @@ class Focuslight::Worker
   end
 
   def rrd
-    @rrd ||= Focuslight::RRD.new
+    @rrd ||= Focuslight::RRD.new(data())
   end
 
   def update_next!
