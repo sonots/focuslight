@@ -19,6 +19,7 @@ class Focuslight::Data
     end
     @graphs = DB.from(:graphs)
     @complex_graphs = DB.from(:complex_graphs)
+    @vrules = DB.from(:vrules)
   end
 
   def number_type
@@ -263,5 +264,22 @@ class Focuslight::Data
     rows = @complex_graphs.reverse_order(:service_name, :section_name, :graph_name)
     return [] unless rows
     rows.map{|row| Focuslight::Graph.concrete(row)}
+  end
+
+  def get_complex(service, section, graph)
+    data = @complex_graphs.where(service_name: service, section_name: section, graph_name: graph).first
+    data && Focuslight::Graph.concrete(data)
+  end
+
+  def update_vrule(graph_path, time, color, desc)
+    params = {
+      graph_path: graph_path,
+      time: time,
+      color: color,
+      desc: desc,
+    }
+    @vrules.insert(params)
+    data = @vrules.where(params).first
+    data && Focuslight::Vrule.concrete(data)
   end
 end
