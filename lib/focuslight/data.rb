@@ -67,9 +67,10 @@ class Focuslight::Data
         column :graph_path, String, null: false
         column :time, Bignum, null: false
         column :color, String, default: "#FF0000", null: false
-        String :description, text: true
+        String :description, text: true # , collate: 'utf8_bin'
         index [:time, :graph_path], name: "time_graph_path"
       end
+    end
   end
 
   def execute(*args)
