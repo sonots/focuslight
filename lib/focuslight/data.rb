@@ -29,7 +29,7 @@ class Focuslight::Data
     ntype = number_type
     DB.transaction do
 
-      DB.create_table :graphs do
+      DB.create_table? :graphs do
         primary_key :id, Bignum # Notice that SQLite actually creates integer primary key
         column :service_name, String, null: false
         column :section_name, String, null: false
@@ -48,7 +48,7 @@ class Focuslight::Data
         unique [:service_name, :section_name, :graph_name]
       end
 
-      DB.create_table :complex_graphs do
+      DB.create_table? :complex_graphs do
         primary_key :id, Bignum # Notice that SQLite actually creates integer primary key
         column :service_name, String, null: false
         column :section_name, String, null: false
@@ -61,7 +61,15 @@ class Focuslight::Data
         column :updated_at, Bignum, null: false
         unique [:service_name, :section_name, :graph_name]
       end
-    end
+
+      DB.create_table? :vrules do
+        primary_key :id, Bignum # Notice that SQLite actually creates integer primary key
+        column :graph_path, String, null: false
+        column :time, Bignum, null: false
+        column :color, String, default: "#FF0000", null: false
+        String :description, text: true
+        index [:time, :graph_path], name: "time_graph_path"
+      end
   end
 
   def execute(*args)
